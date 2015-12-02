@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title>ChevParty</title>
+  </head>
+  <body>
+    <h1>CHEV PARTY WHAT WHAT</h1>
+
+    <script>
+      var host = window.document.location.host.replace(/:.*/, '');
+      var ws = new WebSocket('ws://' + host + ':8901');
+      ws.onopen = function (e) {
+        ws.send('A')
+        setTimeout(function () {
+          ws.send('B')
+        }, 2000)
+      }
+    </script>
+  </body>
+</html>
