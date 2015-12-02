@@ -3,19 +3,22 @@
   <head>
     <meta charset="UTF-8">
     <title>ChevParty</title>
+    <style>
+      canvas {
+        width: 900px;
+        height: 50px;
+      }
+    </style>
   </head>
   <body>
     <h1>CHEV PARTY WHAT WHAT</h1>
 
+    <canvas width="300" height="1"></canvas>
+
+    <script src="jspm_packages/system.js"></script>
+    <script src="config.js"></script>
     <script>
-      var host = window.document.location.host.replace(/:.*/, '');
-      var ws = new WebSocket('ws://' + host + ':8901');
-      ws.onopen = function (e) {
-        ws.send('A')
-        setTimeout(function () {
-          ws.send('B')
-        }, 2000)
-      }
+      System.import('client/index')
     </script>
   </body>
 </html>
