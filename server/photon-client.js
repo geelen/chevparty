@@ -12,8 +12,10 @@ fetch(cloudUrl)
   .then(data => {
     if (!data.result) console.err(data)
     let {port, hostname} = url.parse(data.result)
-    state.client = net.connect(parseInt(port), hostname, () => console.log("Connected!"))
-    state.client.on('data', data => console.log(`${data}`))
+    state.port = port
+    state.hostname = hostname
+    //state.client = net.connect(parseInt(port), hostname, () => console.log("Connected!"))
+    //state.client.on('data', data => console.log(`${data}`))
   })
   .catch(err => {
     console.error(err)

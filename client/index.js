@@ -1,7 +1,7 @@
 var host = window.document.location.host.replace(/:.*/, '');
 const [w,h] = [300,1];
 const hex = uint8 => ('00' + uint8.toString(16).toUpperCase()).slice(-2)
-const colors = ['red','green','blue']
+const colors = ['#f00','#0f0','#00f']
 
 var ws = new WebSocket('ws://' + host + ':8901');
 ws.onopen = () => {
@@ -37,13 +37,16 @@ canvas.addEventListener('mousemove', e => {
 document.addEventListener('mouseup', () => down = false)
 
 setInterval(() => {
-  if (!ws.readyState === 1) return console.log("Waiting for WebSocket")
   let {data} = ctx.getImageData(0,0,w,h)
-  let colours = []
-  for (var i = 0; i < data.length; i+=4) {
-    colours.push(`#${hex(data[i])}${hex(data[i+1])}${hex(data[i+2])} `)
+  let output = new Uint8ClampedArray(Math.round(data.length * 3 / 4))
+  for (var i = 0; i < data.length / 4; i++) {
+    output[3*i] = data[4*i] |0
+    output[3*i+1] = data[4*i+1] |0
+    output[3*i+2] = data[4*i+2] |0
   }
-  console.log(colours.join(''))
-}, 1000)
+  if (ws.readyState !== 1) return console.log("Waiting for WebSocket")
+  ws.send(output)
+  //console.log(output.join(''))
+}, 200)
 
 export default null
